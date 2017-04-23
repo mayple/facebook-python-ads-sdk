@@ -1,3 +1,4 @@
+
 # Copyright 2014 Facebook, Inc.
 
 # You are hereby granted a non-exclusive, worldwide, royalty-free license to
@@ -29,7 +30,7 @@ readme_filename = os.path.join(this_dir, 'README.md')
 requirements_filename = os.path.join(this_dir, 'requirements.txt')
 
 PACKAGE_NAME = 'facebookads'
-PACKAGE_VERSION = '2.11.4'
+PACKAGE_VERSION = '2018.04.21'
 PACKAGE_AUTHOR = 'Facebook'
 PACKAGE_AUTHOR_EMAIL = ''
 PACKAGE_URL = 'https://github.com/facebook/facebook-python-ads-sdk'
@@ -75,5 +76,4 @@ setup(
     description=PACKAGE_DESCRIPTION,
     long_description=PACKAGE_LONG_DESCRIPTION,
     install_requires=PACKAGE_INSTALL_REQUIRES,
-    classifiers=PACKAGE_CLASSIFIERS,
 )
