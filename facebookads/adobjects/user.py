@@ -182,6 +182,71 @@ class User(
             self.assure_call()
             return request.execute()
 
+    def get_businesses(self, fields=None, params=None, batch=None, pending=False):
+        from facebookads.adobjects.business import Business
+        param_types = {
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='GET',
+            endpoint='/businesses',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=Business,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=Business),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def get_extended_access_token(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'grant_type':        'string',
+            'client_id':         'string',
+            'client_secret':     'string',
+            'fb_exchange_token': 'string',
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id='oauth',
+            method='GET',
+            endpoint='/access_token',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='NODE',
+            response_parser=ObjectParser(reuse_object=self),
+        )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields.extend([
+            'access_token', 'token_type'
+        ])
+
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
     def get_lead_gen_forms(self, fields=None, params=None, batch=None, pending=False):
         from facebookads.adobjects.leadgenform import LeadgenForm
         param_types = {
