@@ -247,6 +247,41 @@ class User(
             self.assure_call()
             return request.execute()
 
+    def get_access_token_debug_details(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'input_token':        'string',
+            'access_token':       'string',
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id='debug_token',
+            method='GET',
+            endpoint='/',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='NODE',
+            response_parser=ObjectParser(reuse_object=self),
+        )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields.extend([
+            'app_id', 'application', 'expires_at', 'is_valid', 'issued_at', 'scopes', 'user_id'
+        ])
+
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
     def get_lead_gen_forms(self, fields=None, params=None, batch=None, pending=False):
         from facebookads.adobjects.leadgenform import LeadgenForm
         param_types = {
