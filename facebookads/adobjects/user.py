@@ -231,6 +231,7 @@ class User(
         )
 
         # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
         request._accepted_fields.extend([
             'access_token', 'token_type'
         ])
@@ -266,6 +267,7 @@ class User(
         )
 
         # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
         request._accepted_fields.extend([
             'app_id', 'application', 'expires_at', 'is_valid', 'issued_at', 'scopes', 'user_id'
         ])
