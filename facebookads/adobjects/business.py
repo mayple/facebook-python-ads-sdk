@@ -1135,7 +1135,7 @@ class Business(
             self.assure_call()
             return request.execute()
 
-    def get_user_permissions(self, fields=None, params=None, batch=None, pending=False):
+    def get_all_user_permissions(self, fields=None, params=None, batch=None, pending=False):
         param_types = {
         }
         enums = {
@@ -1162,7 +1162,7 @@ class Business(
             self.assure_call()
             return request.execute()
 
-    def get_user_permission(self, fields=None, params=None, batch=None, pending=False):
+    def get_user_permissions(self, fields=None, params=None, batch=None, pending=False):
         param_types = {
             'user': 'string'
         }

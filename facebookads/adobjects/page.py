@@ -71,6 +71,80 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
     def get_endpoint(cls):
         return 'accounts'
 
+    def get_extended_access_token(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'grant_type':        'string',
+            'client_id':         'string',
+            'client_secret':     'string',
+            'fb_exchange_token': 'string',
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id='oauth',
+            method='GET',
+            endpoint='/access_token',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='NODE',
+            response_parser=ObjectParser(reuse_object=self),
+        )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
+        request._accepted_fields.extend([
+            'access_token', 'token_type'
+        ])
+
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def get_access_token_debug_details(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'input_token':  'string',
+            'access_token': 'string',
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id='debug_token',
+            method='GET',
+            endpoint='/',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='NODE',
+            response_parser=ObjectParser(reuse_object=self),
+        )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
+        request._accepted_fields.extend([
+            'app_id', 'application', 'expires_at', 'is_valid', 'issued_at', 'scopes', 'user_id'
+        ])
+
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
     def get_leadgen_forms(self, fields=None, params=None):
         """
         Returns all leadgen forms on the page
@@ -87,6 +161,39 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
         Returns all events on the page
         """
         return self.iterate_edge(Event, fields, params, endpoint='events')
+
+    def get_picture(self, fields=None, params=None, batch=None, pending=False):
+        from facebookads.adobjects.profilepicturesource import ProfilePictureSource
+        param_types = {
+            'height': 'int',
+            'redirect': 'bool',
+            'type': 'type_enum',
+            'width': 'int',
+        }
+        enums = {
+            'type_enum': ProfilePictureSource.Type.__dict__.values(),
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='GET',
+            endpoint='/picture',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=ProfilePictureSource,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=ProfilePictureSource),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
 
     def get_agencies(self, fields=None, params=None, batch=None, pending=False):
         from facebookads.adobjects.business import Business
@@ -134,6 +241,33 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
             target_class=Business,
             api_type='EDGE',
             response_parser=ObjectParser(target_class=Business),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def get_all_user_permissions(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='GET',
+            endpoint='/userpermissions',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=AbstractCrudObject),
         )
         request.add_params(params)
         request.add_fields(fields)
