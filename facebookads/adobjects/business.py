@@ -49,11 +49,13 @@ class Business(
         link = 'link'
         name = 'name'
         payment_account_id = 'payment_account_id'
+        picture = 'picture'
         primary_page = 'primary_page'
         timezone_id = 'timezone_id'
         two_factor_type = 'two_factor_type'
         updated_by = 'updated_by'
         updated_time = 'updated_time'
+        vertical = 'vertical'
 
     def api_get(self, fields=None, params=None, batch=None, pending=False):
         param_types = {

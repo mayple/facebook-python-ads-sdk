@@ -77,6 +77,7 @@ class User(
         name_format = 'name_format'
         payment_pricepoints = 'payment_pricepoints'
         political = 'political'
+        picture = 'picture'
         public_key = 'public_key'
         quotes = 'quotes'
         relationship_status = 'relationship_status'

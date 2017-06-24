@@ -21,6 +21,13 @@
 from facebookads.adobjects.event import Event
 from facebookads.adobjects.leadgenform import LeadgenForm
 from facebookads.adobjects.abstractcrudobject import AbstractCrudObject
+from facebookads.adobjects.abstractobject import AbstractObject
+from facebookads.adobjects.abstractcrudobject import AbstractCrudObject
+from facebookads.adobjects.objectparser import ObjectParser
+from facebookads.api import FacebookRequest
+from facebookads.typechecker import TypeChecker
+from facebookads.adobjects.helpers.adaccountmixin import AdAccountMixin
+from facebookads.mixins import HasAdLabels
 from facebookads.mixins import (
     CannotCreate,
     CannotDelete,
@@ -47,6 +54,18 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
         street = 'street'
         zip = 'zip'
 
+    class AccessType:
+        owner = 'OWNER'
+        agency = 'AGENCY'
+
+    class PermittedRoles:
+        admin = 'ADMIN'
+        general_user = 'GENERAL_USER'
+        reports_only = 'REPORTS_ONLY'
+        instagram_advertiser = 'INSTAGRAM_ADVERTISER'
+        instagram_manager = 'INSTAGRAM_MANAGER'
+        fb_employee_dso_advertiser = 'FB_EMPLOYEE_DSO_ADVERTISER'
+
     # @deprecated get_endpoint function is deprecated
     @classmethod
     def get_endpoint(cls):
@@ -68,3 +87,131 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
         Returns all events on the page
         """
         return self.iterate_edge(Event, fields, params, endpoint='events')
+
+    def get_agencies(self, fields=None, params=None, batch=None, pending=False):
+        from facebookads.adobjects.business import Business
+        param_types = {
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='GET',
+            endpoint='/agencies',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=Business,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=Business),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def create_agency(self, fields=None, params=None, batch=None, pending=False):
+        from facebookads.adobjects.business import Business
+        param_types = {
+            'business': 'string',
+            'permitted_roles': 'list<permitted_roles_enum>',
+        }
+        enums = {
+            'permitted_roles_enum': Page.PermittedRoles.__dict__.values(),
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='POST',
+            endpoint='/agencies',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=Business,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=Business),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def get_user_permissions(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+        }
+        enums = {
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='GET',
+            endpoint='/userpermissions',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=AbstractCrudObject),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    def create_user_permission(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'business': 'string',
+            'user': 'string',
+            'role': 'role_enum',
+        }
+        enums = {
+            'role_enum': [
+                'ADMIN',
+                'GENERAL_USER',
+                'REPORTS_ONLY',
+            ],
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='POST',
+            endpoint='/userpermissions',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=AbstractCrudObject),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
+    @classmethod
+    def _get_field_enum_info(cls):
+        field_enum_info = {}
+        field_enum_info['AccessType'] = Page.AccessType.__dict__.values()
+        field_enum_info['PermittedRoles'] = Page.PermittedRoles.__dict__.values()
+        return field_enum_info
