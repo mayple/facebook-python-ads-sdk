@@ -45,6 +45,9 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
         location = 'location'
         website = 'website'
         phone = 'phone'
+        about = 'about'
+        picture = 'picture'
+        link = 'link'
 
     class Location(object):
         city = 'city'
@@ -269,6 +272,14 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
             api_type='EDGE',
             response_parser=ObjectParser(target_class=AbstractCrudObject),
         )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
+        request._accepted_fields.extend([
+            'business_persona', 'status', 'user', 'role', 'email', 'created_by', 'updated_by', 'created_time',
+            'updated_time', 'page_permissions', 'adaccount_permissions'
+        ])
+
         request.add_params(params)
         request.add_fields(fields)
 
@@ -296,6 +307,14 @@ class Page(CannotCreate, CannotDelete, CannotUpdate, AbstractCrudObject):
             api_type='EDGE',
             response_parser=ObjectParser(target_class=AbstractCrudObject),
         )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
+        request._accepted_fields.extend([
+            'business_persona', 'status', 'user', 'role', 'email', 'created_by', 'updated_by', 'created_time',
+            'updated_time', 'page_permissions', 'adaccount_permissions'
+        ])
+
         request.add_params(params)
         request.add_fields(fields)
 
