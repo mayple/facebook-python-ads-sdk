@@ -928,44 +928,6 @@ class Business(
             self.assure_call()
             return request.execute()
 
-    def create_user_permission(self, fields=None, params=None, batch=None, pending=False):
-        param_types = {
-            'email': 'string',
-            'role': 'role_enum',
-            'user': 'int',
-        }
-        enums = {
-            'role_enum': [
-                'FINANCE_EDITOR',
-                'FINANCE_ANALYST',
-                'ADS_RIGHTS_REVIEWER',
-                'ADMIN',
-                'EMPLOYEE',
-                'FB_EMPLOYEE_SALES_REP',
-            ],
-        }
-        request = FacebookRequest(
-            node_id=self['id'],
-            method='POST',
-            endpoint='/userpermissions',
-            api=self._api,
-            param_checker=TypeChecker(param_types, enums),
-            target_class=AbstractCrudObject,
-            api_type='EDGE',
-            response_parser=ObjectParser(target_class=AbstractCrudObject, api=self._api),
-        )
-        request.add_params(params)
-        request.add_fields(fields)
-
-        if batch is not None:
-            request.add_to_batch(batch)
-            return request
-        elif pending:
-            return request
-        else:
-            self.assure_call()
-            return request.execute()
-
 
     def get_apps(self, fields=None, params=None, batch=None, pending=False):
         param_types = {
@@ -1099,7 +1061,7 @@ class Business(
             self.assure_call()
             return request.execute()
 
-    def get_all_user_permissions(self, fields=None, params=None, batch=None, pending=False):
+    def get_business_users(self, fields=None, params=None, batch=None, pending=False):
         param_types = {
         }
         enums = {
@@ -1107,7 +1069,7 @@ class Business(
         request = FacebookRequest(
             node_id=self['id'],
             method='GET',
-            endpoint='/userpermissions',
+            endpoint='/business_users',
             api=self._api,
             param_checker=TypeChecker(param_types, enums),
             target_class=AbstractCrudObject,
@@ -1118,44 +1080,7 @@ class Business(
         # TODO: Create an actual object instead of using AbstractCrudObject with this list..
         request._accepted_fields = list(request._accepted_fields)
         request._accepted_fields.extend([
-            'business_persona', 'status', 'user', 'role', 'email', 'created_by', 'updated_by', 'created_time',
-            'updated_time', 'page_permissions', 'adaccount_permissions'
-        ])
-
-        request.add_params(params)
-        request.add_fields(fields)
-
-        if batch is not None:
-            request.add_to_batch(batch)
-            return request
-        elif pending:
-            return request
-        else:
-            self.assure_call()
-            return request.execute()
-
-    def get_user_permissions(self, fields=None, params=None, batch=None, pending=False):
-        param_types = {
-            'user': 'string'
-        }
-        enums = {
-        }
-        request = FacebookRequest(
-            node_id=self['id'],
-            method='GET',
-            endpoint='/userpermissions',
-            api=self._api,
-            param_checker=TypeChecker(param_types, enums),
-            target_class=AbstractCrudObject,
-            api_type='EDGE',
-            response_parser=ObjectParser(target_class=AbstractCrudObject),
-        )
-
-        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
-        request._accepted_fields = list(request._accepted_fields)
-        request._accepted_fields.extend([
-            'business_persona', 'status', 'user', 'role', 'email', 'created_by', 'updated_by', 'created_time',
-            'updated_time', 'page_permissions', 'adaccount_permissions'
+            'id', 'name', 'first_name', 'last_name', 'marked_for_removal', 'business', 'role', 'email'
         ])
 
         request.add_params(params)
