@@ -101,6 +101,15 @@ class AdAccount(
         tos_accepted = 'tos_accepted'
         user_role = 'user_role'
 
+    class PermittedRoles:
+        admin = 'ADMIN'
+        general_user = 'GENERAL_USER'
+        reports_only = 'REPORTS_ONLY'
+        instagram_advertiser = 'INSTAGRAM_ADVERTISER'
+        instagram_manager = 'INSTAGRAM_MANAGER'
+        fb_employee_dso_advertiser = 'FB_EMPLOYEE_DSO_ADVERTISER'
+        creative = 'CREATIVE'
+
     # @deprecated get_endpoint function is deprecated
     @classmethod
     def get_endpoint(cls):
