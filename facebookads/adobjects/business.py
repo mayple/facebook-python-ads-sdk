@@ -681,6 +681,21 @@ class Business(
             api_type='EDGE',
             response_parser=ObjectParser(target_class=AbstractCrudObject, api=self._api),
         )
+
+        # TODO: Create an actual object instead of using AbstractCrudObject with this list..
+        request._accepted_fields = list(request._accepted_fields)
+        request._accepted_fields.extend([
+            'id',
+            'name',
+            'about',
+            'category',
+            'link',
+            'access_token',
+            'location',
+            'website',
+            'phone',
+        ])
+
         request.add_params(params)
         request.add_fields(fields)
 
