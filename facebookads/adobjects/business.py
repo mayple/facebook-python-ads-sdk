@@ -58,6 +58,26 @@ class Business(
         updated_time = 'updated_time'
         vertical = 'vertical'
 
+    class Vertical:
+        advertising = 'ADVERTISING'
+        automotive = 'AUTOMOTIVE'
+        consumer_packaged_goods = 'CONSUMER_PACKAGED_GOODS'
+        ecommerce = 'ECOMMERCE'
+        education = 'EDUCATION'
+        energy_and_utilities = 'ENERGY_AND_UTILITIES'
+        entertainment_and_media = 'ENTERTAINMENT_AND_MEDIA'
+        financial_services = 'FINANCIAL_SERVICES'
+        gaming = 'GAMING'
+        government_and_politics = 'GOVERNMENT_AND_POLITICS'
+        marketing = 'MARKETING'
+        organizations_and_associations = 'ORGANIZATIONS_AND_ASSOCIATIONS'
+        professional_services = 'PROFESSIONAL_SERVICES'
+        retail = 'RETAIL'
+        technology = 'TECHNOLOGY'
+        telecom = 'TELECOM'
+        travel = 'TRAVEL'
+        other = 'OTHER'
+
     def api_get(self, fields=None, params=None, batch=None, pending=False):
         param_types = {
         }

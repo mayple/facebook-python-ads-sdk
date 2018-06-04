@@ -125,6 +125,40 @@ class User(
             self.assure_call()
             return request.execute()
 
+    def create_business(self, fields=None, params=None, batch=None, pending=False):
+        from facebookads.adobjects.business import Business
+
+        param_types = {
+            'name': 'string',
+            'vertical': 'vertical_enum',
+            'primary_page': 'int',
+            'timezone_id': 'unsigned int',
+        }
+        enums = {
+            'vertical_enum': Business.Vertical.__dict__.values(),
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='POST',
+            endpoint='/businesses',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=Business,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=Business, api=self._api),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
     def get_accounts(self, fields=None, params=None, batch=None, pending=False):
         from facebookads.adobjects.page import Page
         param_types = {
