@@ -105,6 +105,40 @@ class Business(
             self.assure_call()
             return request.execute()
 
+    def invite_business_user(self, fields=None, params=None, batch=None, pending=False):
+        param_types = {
+            'email': 'string',
+            'role':  'role_enum',
+
+        }
+        enums = {
+            'role_enum': [
+                'ADMIN',
+                'EMPLOYEE',
+            ],
+        }
+        request = FacebookRequest(
+            node_id=self['id'],
+            method='POST',
+            endpoint='/business_users',
+            api=self._api,
+            param_checker=TypeChecker(param_types, enums),
+            target_class=AbstractCrudObject,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=AbstractCrudObject),
+        )
+        request.add_params(params)
+        request.add_fields(fields)
+
+        if batch is not None:
+            request.add_to_batch(batch)
+            return request
+        elif pending:
+            return request
+        else:
+            self.assure_call()
+            return request.execute()
+
     def create_ad_study(self, fields=None, params=None, batch=None, pending=False):
         from facebookads.adobjects.adstudy import AdStudy
         param_types = {
