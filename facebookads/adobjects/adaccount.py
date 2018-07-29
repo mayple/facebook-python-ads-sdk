@@ -45,6 +45,7 @@ class AdAccount(
         super(AdAccount, self).__init__(fbid, parent_id, api)
 
     class Field(AbstractObject.Field):
+        access_type = 'access_type'
         account_id = 'account_id'
         account_status = 'account_status'
         age = 'age'
