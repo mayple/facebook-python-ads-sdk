@@ -670,6 +670,17 @@ class AdsPixel(
             self.assure_call()
             return request.execute()
 
+    # --------------------------
+    # Selectom additions - start
+    # --------------------------
+
+    def get_shared_agencies(self, fields=None, params=None, batch=None, pending=False):
+        return self.get_share_d_agencies(fields=fields, params=params, batch=batch, pending=pending)
+
+    # ------------------------
+    # Selectom additions - end
+    # ------------------------
+
     _field_types = {
         'automatic_matching_fields': 'list<string>',
         'can_proxy': 'bool',
