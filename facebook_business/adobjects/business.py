@@ -3276,6 +3276,20 @@ class Business(
             self.assure_call()
             return request.execute()
 
+    # --------------------------
+    # Selectom additions - start
+    # --------------------------
+
+    def get_pending_shared_pixels(self, fields=None, params=None, batch=None, pending=False):
+        return self.get_pending_share_d_pixels(fields=fields, params=params, batch=batch, pending=pending)
+
+    def get_shared_audience_permissions(self, fields=None, params=None, batch=None, pending=False):
+        return self.get_share_d_audience_permissions(fields=fields, params=params, batch=batch, pending=pending)
+
+    # ------------------------
+    # Selectom additions - end
+    # ------------------------
+
     _field_types = {
         'block_offline_analytics': 'bool',
         'created_by': 'Object',

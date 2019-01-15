@@ -674,8 +674,23 @@ class AdsPixel(
     # Selectom additions - start
     # --------------------------
 
+    def delete_shared_accounts(self, fields=None, params=None, batch=None, pending=False):
+        return self.delete_share_d_accounts(fields=fields, params=params, batch=batch, pending=pending)
+
+    def get_share_daccounts(self, fields=None, params=None, batch=None, pending=False):
+        return self.get_share_d_accounts(fields=fields, params=params, batch=batch, pending=pending)
+
+    def create_shared_account(self, fields=None, params=None, batch=None, pending=False):
+        return self.create_share_d_account(fields=fields, params=params, batch=batch, pending=pending)
+
+    def delete_shared_agencies(self, fields=None, params=None, batch=None, pending=False):
+        return self.delete_share_d_agencies(fields=fields, params=params, batch=batch, pending=pending)
+
     def get_shared_agencies(self, fields=None, params=None, batch=None, pending=False):
         return self.get_share_d_agencies(fields=fields, params=params, batch=batch, pending=pending)
+
+    def create_shared_agency(self, fields=None, params=None, batch=None, pending=False):
+        return self.create_share_d_agency(fields=fields, params=params, batch=batch, pending=pending)
 
     # ------------------------
     # Selectom additions - end
