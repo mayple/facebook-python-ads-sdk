@@ -678,7 +678,7 @@ class FacebookRequest:
                 try:
                     return self._response_parser.parse_single(response.json())
                 except TypeError as te:
-                    if "string indices must be integers" in te:
+                    if "string indices must be integers" in str(te):
                         raise FacebookRequestError(
                             "Erroneous response from Facebook API",
                             response._call,
