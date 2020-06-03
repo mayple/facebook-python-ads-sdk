@@ -49,9 +49,12 @@ class ProfilePictureSource(
         width = 'width'
 
     class Type:
-        album = 'album'
-        small = 'small'
         thumbnail = 'thumbnail'
+        small = 'small'
+        normal = 'normal'
+        album  = 'album'
+        large  = 'large'
+        square = 'square'
 
     _field_types = {
         'bottom': 'unsigned int',
